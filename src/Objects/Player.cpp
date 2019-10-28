@@ -4,19 +4,19 @@ using namespace window;
 namespace players {
 	Player player;
 	const Color playerColor = GRAY;
-	const int playerWidth = 10;
-	const int playerHeight = 10;
+	const int playerWidth = 40;
+	const int playerHeight = 20;
 	const int playerX = screenWidth / 10;
 	const int playerY = screenHeight/2 - playerHeight/2;
 	const int playerSpeed = screenWidth;
-	const int playerHealth = 5;
+	const int playerHealth = 1;
 
-	void initplayer(Player &player, int width, int height, int x, int y, int lives, int speed, Color color);
+	void initPlayer(Player &player, int width, int height, int x, int y, int lives, int speed, Color color);
 
 	void init() {
-		initplayer(player, playerWidth, playerHeight, playerX, playerY, playerHealth, playerSpeed, playerColor);
+		initPlayer(player, playerWidth, playerHeight, playerX, playerY, playerHealth, playerSpeed, playerColor);
 	}
-	void initplayer(Player &player, int width, int height, int x, int y, int health, int speed, Color color) {
+	void initPlayer(Player &player, int width, int height, int x, int y, int health, int speed, Color color) {
 		player.Body.width = width;
 		player.Body.height = height;
 		player.Body.x = x;

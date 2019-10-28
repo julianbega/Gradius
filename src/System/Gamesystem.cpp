@@ -1,6 +1,10 @@
 #include "System/Gamesystem.h"
 #include "Objects/Window.h"
+#include "Objects/Player.h"
+#include "Objects/Fighter.h"
 #include "Scenes/Menu.h"
+#include "Scenes/Gameplay.h"
+#include "Scenes/Credits.h"
 #include "raylib.h"
 namespace gamesystem {
 	bool gameIsOn = true;
@@ -14,11 +18,12 @@ namespace gamesystem {
 				menu::run();
 				break;
 			case Game:
-
+				gameplay::run();
 				break;
 			case Controls:
 				break;
 			case Credits:
+				credits::run();
 				break;
 			case End:
 				break;
@@ -28,5 +33,8 @@ namespace gamesystem {
 	void init() {
 		window::init();
 		menu::init();
+		players::init();
+		fighters::init();
+		credits::init();
 	}
 }
