@@ -29,6 +29,8 @@ namespace gamesystem {
 				break;
 			}
 		}
+		UnloadTexture(gameplay::frame1);
+		UnloadTexture(gameplay::frame2);
 	}
 	void init() {
 		window::init();
@@ -36,5 +38,6 @@ namespace gamesystem {
 		players::init();
 		fighters::init();
 		credits::init();
+		gameplay::init();
 	}
 }
