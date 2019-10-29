@@ -2,6 +2,7 @@
 #include "Objects/Window.h"
 #include "Objects/Player.h"
 #include "Objects/Fighter.h"
+#include "Objects/GroundFighter.h"
 #include "Objects/Bullets.h"
 #include "Objects/Bomb.h"
 #include "Scenes/Menu.h"
@@ -39,6 +40,7 @@ namespace gamesystem {
 		menu::init();
 		players::init();
 		fighters::init();
+		groundFighters::init();
 		credits::init();
 		gameplay::init();
 		bullets::init();

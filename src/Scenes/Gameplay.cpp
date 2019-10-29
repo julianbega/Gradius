@@ -1,5 +1,6 @@
 #include "Objects/Player.h"
 #include "Objects/Fighter.h"
+#include "Objects/GroundFighter.h"
 #include "Objects/Bullets.h"
 #include "Objects/Bomb.h"
 #include "Objects/Window.h"
@@ -7,6 +8,7 @@
 #include <iostream>
 using namespace players;
 using namespace fighters;
+using namespace groundFighters;
 using namespace window;
 using namespace bullets;
 using namespace bombs;
@@ -39,18 +41,20 @@ namespace gameplay {
 	void drawPlayerAnim(Player player, Texture2D frame1, Texture2D frame2);
 	void drawPlayerLives(Player player);
 	void drawFighter(Fighter fighter);
+	void drawGroundFighter(GroundFighter groundFighter);
 	void drawBullet(Bullets bullet);
 	void drawBomb(Bombs bomb);
 	void controlPause(bool &pause);
 	void movePlayer(Player &player);
 	void moveFighter(Fighter &fighter);
+	void moveGroundFighter(GroundFighter &groundFighter);
 	void moveParallax(Rectangle &parallax);
 	void moveBullet(Bullets &bullet);
 	void moveBomb(Bombs &bomb);
 	void shootBullet(Bullets &bullet, Player player);
 	void shootBomb(Bombs &bomb, Player player);
-	void hitEnemy(Bullets &bullet, Fighter &fighter);
-	void checkPlayerEnemyCollision(Player &player, Fighter &fighter);
+	void hitEnemy(Bullets &bullet, Fighter &fighter, GroundFighter &groundFighter);
+	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter);
 	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
 	void run() {
 		input();
@@ -71,11 +75,12 @@ namespace gameplay {
 	}
 	void update() {
 		moveFighter(fighter);
+		moveGroundFighter(groundFighter);
 		moveParallax(parallax);
 		moveBullet(bullet);
 		moveBomb(bomb);
-		checkPlayerEnemyCollision(player, fighter);
-		hitEnemy(bullet,fighter);
+		checkPlayerEnemyCollision(player, fighter, groundFighter);
+		hitEnemy(bullet,fighter, groundFighter);
 		checkWinLose(player,bullet,Gamestate);
 	}
 	void draw() {
@@ -87,6 +92,7 @@ namespace gameplay {
 		drawPlayerAnim(player,frame1,frame2);
 		drawPlayerLives(player);
 		drawFighter(fighter);
+		drawGroundFighter(groundFighter);
 		EndDrawing();
 	}
 	void loadTextures(Texture2D &frame1, Texture2D &frame2) {
@@ -145,6 +151,11 @@ namespace gameplay {
 			DrawRectangleRec(fighter.Body, fighter.Color);
 		}
 	}
+	void drawGroundFighter(GroundFighter groundFighter) {
+		if (groundFighter.Active) {
+			DrawRectangleRec(groundFighter.Body, groundFighter.Color);
+		}
+	}
 	void drawParallax(Rectangle parallax) {
 		for (int i = 0; i < maxParallax / 2; i++) {
 			DrawRectangle(parallax.x - (i*parallax.width*2), parallax.y, parallax.width, parallax.height, parallaxColor);
@@ -186,6 +197,19 @@ namespace gameplay {
 			fighter.Body.y = GetRandomValue(0, screenHeight - fighter.Body.height);
 		}
 	}
+
+	void moveGroundFighter(GroundFighter &groundFighter) {
+		float time = GetFrameTime();
+		if (groundFighter.Active)
+		{
+			groundFighter.Body.x -= groundFighter.Speed*time;
+		}
+		if (groundFighter.Body.x <= 0 - groundFighter.Body.width) {
+			groundFighter.Body.x = screenWidth + groundFighter.Body.x;
+			groundFighter.Body.y = screenHeight - fighter.Body.height;
+		}
+	}
+		
 	void moveBullet(Bullets &bullet) {
 		if (bullet.Active) {
 			float time = GetFrameTime();
@@ -220,17 +244,27 @@ namespace gameplay {
 		}
 	}
 
-	void hitEnemy(Bullets &bullet,Fighter &fighter) {
+	void hitEnemy(Bullets &bullet,Fighter &fighter, GroundFighter &groundFighter) {
 		if (CheckCollisionRecs(bullet.Body, fighter.Body) && bullet.Active) {
 			bullet.Active = false;
 			fighter.Active = false;
 			enemiesKilled++;
 		}
+		if (CheckCollisionRecs(bullet.Body, groundFighter.Body) && bullet.Active) {
+			bullet.Active = false;
+			groundFighter.Active = false;
+			enemiesKilled++;
+		}
 	}
-	void checkPlayerEnemyCollision(Player &player, Fighter &fighter) {
+	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter) {
 		if (CheckCollisionRecs(player.Body,fighter.Body)&&fighter.Active){
 			player.Health--;
 			fighter.Active=false;
+			enemiesKilled++;
+		}
+		if (CheckCollisionRecs(player.Body, groundFighter.Body) && groundFighter.Active) {
+			player.Health--;
+			groundFighter.Active = false;
 			enemiesKilled++;
 		}
 	}

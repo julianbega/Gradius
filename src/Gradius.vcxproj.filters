@@ -40,6 +40,9 @@
     <ClCompile Include="Objects\Bomb.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\GroundFighter.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="System\Gamesystem.h">
@@ -67,6 +70,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Bomb.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\GroundFighter.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
