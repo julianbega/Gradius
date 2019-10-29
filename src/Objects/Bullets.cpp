@@ -7,8 +7,7 @@ namespace bullets {
 	const int bulletSpeed = screenWidth/2;
 	Color bulletColor = GRAY;
 	Bullets bullet;
-	void initBullets(Bullets &bullet,int width, int height,
-					 int speed,Color color);
+	void initBullets(Bullets &bullet,int width, int height, int speed,Color color);
 
 	void init() {
 		initBullets(bullet,bulletWidth,bulletHeight,bulletSpeed,bulletColor);

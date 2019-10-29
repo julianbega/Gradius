@@ -3,6 +3,7 @@
 #include "Objects/Player.h"
 #include "Objects/Fighter.h"
 #include "Objects/Bullets.h"
+#include "Objects/Bomb.h"
 #include "Scenes/Menu.h"
 #include "Scenes/Gameplay.h"
 #include "Scenes/Credits.h"
@@ -41,5 +42,6 @@ namespace gamesystem {
 		credits::init();
 		gameplay::init();
 		bullets::init();
+		bombs::init();
 	}
 }

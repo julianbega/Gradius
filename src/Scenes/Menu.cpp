@@ -71,6 +71,7 @@ namespace menu {
 	void drawText() {
 		DrawText("GRADIUS", GetScreenWidth() / 2 - (MeasureText("GRADIUS", fontSize / 2)), 30, 20, RAYWHITE);
 		DrawText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", GetScreenWidth() / 2 - (MeasureText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", fontSize) / 2), 50, 20, RAYWHITE);
+		DrawText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", GetScreenWidth() / 2 - (MeasureText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", fontSize) / 2), 50, 20, RAYWHITE);
 		DrawText("PLAY", (static_cast<int>(play.Body.x) + static_cast<int>(play.Body.width) / 2) - (MeasureText("PLAY", fontSize) / 2),
 						 (static_cast<int>(play.Body.y) + static_cast<int>(play.Body.height) / 2) - fontSize / 2, fontSize, RAYWHITE);
 		DrawText("EXIT", (static_cast<int>(exit.Body.x) + static_cast<int>(exit.Body.width) / 2) - (MeasureText("EXIT", fontSize) / 2),

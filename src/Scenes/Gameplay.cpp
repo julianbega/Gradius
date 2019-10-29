@@ -1,6 +1,7 @@
 #include "Objects/Player.h"
 #include "Objects/Fighter.h"
 #include "Objects/Bullets.h"
+#include "Objects/Bomb.h"
 #include "Objects/Window.h"
 #include "System/Gamesystem.h"
 #include <iostream>
@@ -8,6 +9,7 @@ using namespace players;
 using namespace fighters;
 using namespace window;
 using namespace bullets;
+using namespace bombs;
 using namespace gamesystem;
 namespace gameplay {
 
@@ -38,12 +40,15 @@ namespace gameplay {
 	void drawPlayerLives(Player player);
 	void drawFighter(Fighter fighter);
 	void drawBullet(Bullets bullet);
+	void drawBomb(Bombs bomb);
 	void controlPause(bool &pause);
 	void movePlayer(Player &player);
 	void moveFighter(Fighter &fighter);
 	void moveParallax(Rectangle &parallax);
 	void moveBullet(Bullets &bullet);
+	void moveBomb(Bombs &bomb);
 	void shootBullet(Bullets &bullet, Player player);
+	void shootBomb(Bombs &bomb, Player player);
 	void hitEnemy(Bullets &bullet, Fighter &fighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter);
 	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
@@ -61,12 +66,14 @@ namespace gameplay {
 	void input() {
 		controlPause(pause);
 		shootBullet(bullet, player);
+		shootBomb(bomb, player);
 		movePlayer(player);
 	}
 	void update() {
 		moveFighter(fighter);
 		moveParallax(parallax);
 		moveBullet(bullet);
+		moveBomb(bomb);
 		checkPlayerEnemyCollision(player, fighter);
 		hitEnemy(bullet,fighter);
 		checkWinLose(player,bullet,Gamestate);
@@ -76,6 +83,7 @@ namespace gameplay {
 		ClearBackground(BLACK);
 		drawParallax(parallax);
 		drawBullet(bullet);
+		drawBomb(bomb);
 		drawPlayerAnim(player,frame1,frame2);
 		drawPlayerLives(player);
 		drawFighter(fighter);
@@ -119,6 +127,11 @@ namespace gameplay {
 	void drawBullet(Bullets bullet){
 		if (bullet.Active) {
 			DrawRectangleRec(bullet.Body, bullet.Color);
+		}
+	}
+	void drawBomb(Bombs bomb) {
+		if (bomb.Active) {
+			DrawRectangleRec(bomb.Body, bomb.Color);
 		}
 	}
 	void drawPlayerLives(Player player) {
@@ -182,6 +195,15 @@ namespace gameplay {
 			bullet.Active = false;
 		}
 	}
+	void moveBomb(Bombs &bomb) {
+		if (bomb.Active) {
+			float time = GetFrameTime();
+			bomb.Body.y += bomb.Speed*time;
+		}
+		if (bomb.Body.y >= screenHeight + bomb.Body.width) {
+			bomb.Active = false;
+		}
+	}
 	void shootBullet(Bullets &bullet, Player player) {
 		if (IsKeyDown(KEY_SPACE) && !bullet.Active) {
 			bullet.Active = true;
@@ -189,8 +211,17 @@ namespace gameplay {
 			bullet.Body.y = player.Body.y + (player.Body.height / 2);
 		}
 	}
+
+	void shootBomb(Bombs &bomb, Player player) {
+		if (IsKeyDown('B') && !bomb.Active) {
+			bomb.Active = true;
+			bomb.Body.x = player.Body.x + (player.Body.width / 2);
+			bomb.Body.y = player.Body.y + (player.Body.height / 2);
+		}
+	}
+
 	void hitEnemy(Bullets &bullet,Fighter &fighter) {
-		if (CheckCollisionRecs(bullet.Body, fighter.Body)) {
+		if (CheckCollisionRecs(bullet.Body, fighter.Body) && bullet.Active) {
 			bullet.Active = false;
 			fighter.Active = false;
 			enemiesKilled++;
