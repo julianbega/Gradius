@@ -53,7 +53,7 @@ namespace gameplay {
 	void moveBomb(Bombs &bomb);
 	void shootBullet(Bullets &bullet, Player player);
 	void shootBomb(Bombs &bomb, Player player);
-	void hitEnemy(Bullets &bullet, Fighter &fighter, GroundFighter &groundFighter);
+	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter);
 	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
 	void run() {
@@ -80,7 +80,7 @@ namespace gameplay {
 		moveBullet(bullet);
 		moveBomb(bomb);
 		checkPlayerEnemyCollision(player, fighter, groundFighter);
-		hitEnemy(bullet,fighter, groundFighter);
+		hitEnemy(bullet, bomb, fighter, groundFighter);
 		checkWinLose(player,bullet,Gamestate);
 	}
 	void draw() {
@@ -244,7 +244,7 @@ namespace gameplay {
 		}
 	}
 
-	void hitEnemy(Bullets &bullet,Fighter &fighter, GroundFighter &groundFighter) {
+	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter) {
 		if (CheckCollisionRecs(bullet.Body, fighter.Body) && bullet.Active) {
 			bullet.Active = false;
 			fighter.Active = false;
@@ -252,6 +252,16 @@ namespace gameplay {
 		}
 		if (CheckCollisionRecs(bullet.Body, groundFighter.Body) && bullet.Active) {
 			bullet.Active = false;
+			groundFighter.Active = false;
+			enemiesKilled++;
+		}
+		if (CheckCollisionRecs(bomb.Body, fighter.Body) && bomb.Active) {
+			bomb.Active = false;
+			fighter.Active = false;
+			enemiesKilled++;
+		}
+		if (CheckCollisionRecs(bomb.Body, groundFighter.Body) && bomb.Active) {
+			bomb.Active = false;
 			groundFighter.Active = false;
 			enemiesKilled++;
 		}
