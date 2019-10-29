@@ -2,6 +2,7 @@
 #include "Objects/Fighter.h"
 #include "Objects/GroundFighter.h"
 #include "Objects/Bullets.h"
+#include "Objects/GroundFighterBullet.h"
 #include "Objects/Bomb.h"
 #include "Objects/Window.h"
 #include "System/Gamesystem.h"
@@ -9,6 +10,7 @@
 using namespace players;
 using namespace fighters;
 using namespace groundFighters;
+using namespace groundFighterBullets;
 using namespace window;
 using namespace bullets;
 using namespace bombs;
@@ -25,6 +27,8 @@ namespace gameplay {
 	bool pause = false;
 	const int enemiesOnLevel = 1;
 	float timer = 0;
+	float groundShootTimer = 0;
+	float groundShootCurve = 0;
 	int enemiesKilled = 0;
 	Vector2 textureFrame = { player.Body.x,player.Body.y };
 	Texture2D frame1;
@@ -42,6 +46,7 @@ namespace gameplay {
 	void drawPlayerLives(Player player);
 	void drawFighter(Fighter fighter);
 	void drawGroundFighter(GroundFighter groundFighter);
+	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet);
 	void drawBullet(Bullets bullet);
 	void drawBomb(Bombs bomb);
 	void controlPause(bool &pause);
@@ -51,8 +56,10 @@ namespace gameplay {
 	void moveParallax(Rectangle &parallax);
 	void moveBullet(Bullets &bullet);
 	void moveBomb(Bombs &bomb);
+	void moveGroundBullet(GroundFighterBullets &groundFighterBullet);
 	void shootBullet(Bullets &bullet, Player player);
 	void shootBomb(Bombs &bomb, Player player);
+	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter);
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter);
 	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
@@ -78,10 +85,16 @@ namespace gameplay {
 		moveGroundFighter(groundFighter);
 		moveParallax(parallax);
 		moveBullet(bullet);
+		moveGroundBullet(groundFighterBullet);
 		moveBomb(bomb);
 		checkPlayerEnemyCollision(player, fighter, groundFighter);
 		hitEnemy(bullet, bomb, fighter, groundFighter);
 		checkWinLose(player,bullet,Gamestate);
+		groundShootTimer += GetFrameTime();
+		if (groundShootTimer >= 3){
+			shootGroundBullet(groundFighterBullet, groundFighter);
+			groundShootTimer = 0;
+		}
 	}
 	void draw() {
 		BeginDrawing();
@@ -93,7 +106,8 @@ namespace gameplay {
 		drawPlayerLives(player);
 		drawFighter(fighter);
 		drawGroundFighter(groundFighter);
-		EndDrawing();
+		drawGroundFighterBullet(groundFighterBullet);
+			EndDrawing();
 	}
 	void loadTextures(Texture2D &frame1, Texture2D &frame2) {
 		frame1 = LoadTexture("Resources/AnimFirstFrame.png");
@@ -138,6 +152,11 @@ namespace gameplay {
 	void drawBomb(Bombs bomb) {
 		if (bomb.Active) {
 			DrawRectangleRec(bomb.Body, bomb.Color);
+		}
+	}
+	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet) {
+		if (groundFighterBullet.Active) {
+			DrawRectangleRec(groundFighterBullet.Body, groundFighterBullet.Color);
 		}
 	}
 	void drawPlayerLives(Player player) {
@@ -228,6 +247,22 @@ namespace gameplay {
 			bomb.Active = false;
 		}
 	}
+
+	void moveGroundBullet(GroundFighterBullets &groundFighterBullet) {
+		
+		if (groundFighterBullet.Active) {
+			float time = GetFrameTime();
+			if (groundFighterBullet.Body.y >= groundShootCurve) {
+				groundFighterBullet.Body.y -= groundFighterBullet.Speed*time;
+			}
+			if (groundFighterBullet.Body.y <= groundShootCurve) {
+				groundFighterBullet.Body.x -= groundFighterBullet.Speed*time;
+			}
+		}
+		if (groundFighterBullet.Body.x >= screenWidth + groundFighterBullet.Body.width) {
+			groundFighterBullet.Active = false;
+		}
+	}
 	void shootBullet(Bullets &bullet, Player player) {
 		if (IsKeyDown(KEY_SPACE) && !bullet.Active) {
 			bullet.Active = true;
@@ -242,6 +277,14 @@ namespace gameplay {
 			bomb.Body.x = player.Body.x + (player.Body.width / 2);
 			bomb.Body.y = player.Body.y + (player.Body.height / 2);
 		}
+	}
+
+	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter) {
+		
+			groundFighterBullet.Active = true;
+			groundFighterBullet.Body.x = groundFighter.Body.x + (groundFighter.Body.width / 2);
+			groundFighterBullet.Body.y = groundFighter.Body.y + (groundFighter.Body.height / 2);
+		
 	}
 
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter) {

@@ -4,6 +4,7 @@
 #include "Objects/Fighter.h"
 #include "Objects/GroundFighter.h"
 #include "Objects/Bullets.h"
+#include "Objects/GroundFighterBullet.h"
 #include "Objects/Bomb.h"
 #include "Scenes/Menu.h"
 #include "Scenes/Gameplay.h"
@@ -44,6 +45,7 @@ namespace gamesystem {
 		credits::init();
 		gameplay::init();
 		bullets::init();
+		groundFighterBullets::init();
 		bombs::init();
 	}
 }

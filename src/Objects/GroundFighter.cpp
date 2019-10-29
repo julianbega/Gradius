@@ -6,7 +6,7 @@ namespace groundFighters {
 	const Color groundFighterColor = RED;
 	const int groundFighterWidth = 20;
 	const int groundFighterHeight = 10;
-	const int groundFighterX = screenWidth + groundFighterWidth;
+	const int groundFighterX = GetRandomValue(screenWidth + groundFighterWidth, screenWidth + 2 * groundFighterWidth);
 	const int groundFighterY = screenHeight - groundFighterHeight;
 	const int groundFighterSpeed = screenWidth / 2;
 	const int groundFighterHealth = 1;

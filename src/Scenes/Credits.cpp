@@ -2,6 +2,7 @@
 #include "Objects\Window.h"
 #include "Objects\Player.h"
 #include "Objects\Fighter.h"
+#include "Objects/GroundFighter.h"
 #include "System\Gamesystem.h"
 #include "raylib.h"
 using namespace gamesystem;
@@ -109,6 +110,7 @@ namespace credits{
 		if (buttonIsClicked(cursor, button)) {
 			players::init();
 			fighters::init();
+			groundFighters::init();
 			gamestate = Game;
 		}
 	}

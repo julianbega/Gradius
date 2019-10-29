@@ -6,7 +6,7 @@ namespace fighters {
 	const Color fighterColor = RED;
 	const int fighterWidth = 20;
 	const int fighterHeight = 10;
-	const int fighterX = screenWidth+fighterWidth;
+	const int fighterX = GetRandomValue(screenWidth+fighterWidth , screenWidth + 2 * fighterWidth);
 	const int fighterY = GetRandomValue(0,screenHeight-fighterHeight);
 	const int fighterSpeed = screenWidth/2;
 	const int fighterHealth = 1;

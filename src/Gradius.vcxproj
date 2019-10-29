@@ -24,6 +24,7 @@
     <ClCompile Include="Objects\Bullets.cpp" />
     <ClCompile Include="Objects\Fighter.cpp" />
     <ClCompile Include="Objects\GroundFighter.cpp" />
+    <ClCompile Include="Objects\GroundFighterBullet.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Window.cpp" />
     <ClCompile Include="Scenes\Credits.cpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="Objects\Bullets.h" />
     <ClInclude Include="Objects\Fighter.h" />
     <ClInclude Include="Objects\GroundFighter.h" />
+    <ClInclude Include="Objects\GroundFighterBullet.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Window.h" />
     <ClInclude Include="Scenes\Credits.h" />
