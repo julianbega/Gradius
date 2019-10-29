@@ -1,10 +1,13 @@
 #include "Objects/Player.h"
 #include "Objects/Fighter.h"
+#include "Objects/Bullets.h"
 #include "Objects/Window.h"
 #include "System/Gamesystem.h"
+#include <iostream>
 using namespace players;
 using namespace fighters;
 using namespace window;
+using namespace bullets;
 using namespace gamesystem;
 namespace gameplay {
 
@@ -16,7 +19,7 @@ namespace gameplay {
 	const int parallaxSpeed = screenWidth / 30;
 	extern bool initOnce = true;
 	bool pause = false;
-	const int enemiesOnLevel = 10;
+	const int enemiesOnLevel = 1;
 	float timer = 0;
 	int enemiesKilled = 0;
 	Vector2 textureFrame = { player.Body.x,player.Body.y };
@@ -34,18 +37,22 @@ namespace gameplay {
 	void drawPlayerAnim(Player player, Texture2D frame1, Texture2D frame2);
 	void drawPlayerLives(Player player);
 	void drawFighter(Fighter fighter);
+	void drawBullet(Bullets bullet);
 	void controlPause(bool &pause);
 	void movePlayer(Player &player);
 	void moveFighter(Fighter &fighter);
 	void moveParallax(Rectangle &parallax);
+	void moveBullet(Bullets &bullet);
+	void shootBullet(Bullets &bullet, Player player);
+	void hitEnemy(Bullets &bullet, Fighter &fighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter);
-	void checkWinLose(Player player, Gamestates &gamestate);
+	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
 	void run() {
 		input();
 		if (!pause){
 			update();
-			draw();
 		}
+		draw();
 	}
 	void gameplay::init() {
 		loadTextures(frame1, frame2);
@@ -53,19 +60,22 @@ namespace gameplay {
 	}
 	void input() {
 		controlPause(pause);
+		shootBullet(bullet, player);
 		movePlayer(player);
 	}
 	void update() {
 		moveFighter(fighter);
 		moveParallax(parallax);
+		moveBullet(bullet);
 		checkPlayerEnemyCollision(player, fighter);
-		checkWinLose(player, Gamestate);
+		hitEnemy(bullet,fighter);
+		checkWinLose(player,bullet,Gamestate);
 	}
 	void draw() {
 		BeginDrawing();
 		ClearBackground(BLACK);
 		drawParallax(parallax);
-		drawPlayer(player);
+		drawBullet(bullet);
 		drawPlayerAnim(player,frame1,frame2);
 		drawPlayerLives(player);
 		drawFighter(fighter);
@@ -106,6 +116,11 @@ namespace gameplay {
 				player.Body.y - (player.Body.height / 10), WHITE);
 		}
 	}
+	void drawBullet(Bullets bullet){
+		if (bullet.Active) {
+			DrawRectangleRec(bullet.Body, bullet.Color);
+		}
+	}
 	void drawPlayerLives(Player player) {
 		for (int i = 0; i < player.Health; i++) {
 			DrawRectangle((i*player.Body.width), screenHeight/10 - (player.Body.height * 2),
@@ -133,7 +148,8 @@ namespace gameplay {
 		}
 	}
 	void controlPause(bool &pause) {
-		if (IsKeyReleased(KEY_SPACE)) {
+
+		if (IsKeyReleased(KEY_P)){
 			pause = !pause;
 		}
 	}
@@ -157,6 +173,29 @@ namespace gameplay {
 			fighter.Body.y = GetRandomValue(0, screenHeight - fighter.Body.height);
 		}
 	}
+	void moveBullet(Bullets &bullet) {
+		if (bullet.Active) {
+			float time = GetFrameTime();
+			bullet.Body.x += bullet.Speed*time;
+		}
+		if (bullet.Body.x >= screenWidth + bullet.Body.width) {
+			bullet.Active = false;
+		}
+	}
+	void shootBullet(Bullets &bullet, Player player) {
+		if (IsKeyDown(KEY_SPACE) && !bullet.Active) {
+			bullet.Active = true;
+			bullet.Body.x = player.Body.x + (player.Body.width / 2);
+			bullet.Body.y = player.Body.y + (player.Body.height / 2);
+		}
+	}
+	void hitEnemy(Bullets &bullet,Fighter &fighter) {
+		if (CheckCollisionRecs(bullet.Body, fighter.Body)) {
+			bullet.Active = false;
+			fighter.Active = false;
+			enemiesKilled++;
+		}
+	}
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter) {
 		if (CheckCollisionRecs(player.Body,fighter.Body)&&fighter.Active){
 			player.Health--;
@@ -164,12 +203,14 @@ namespace gameplay {
 			enemiesKilled++;
 		}
 	}
-	void checkWinLose(Player player, Gamestates &gamestate) {
+	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate) {
 		if (player.Health <= 0) {
 			gamestate = Credits;
+			bullet.Active = false;
 		}
 		if (enemiesKilled == enemiesOnLevel) {
 			gamestate = Credits;
+			enemiesKilled = 0;
 		}
 	}
 

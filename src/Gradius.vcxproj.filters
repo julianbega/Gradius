@@ -34,6 +34,9 @@
     <ClCompile Include="Objects\Window.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Bullets.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="System\Gamesystem.h">
@@ -55,6 +58,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Window.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Bullets.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
