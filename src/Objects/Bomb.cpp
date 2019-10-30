@@ -20,4 +20,21 @@ namespace bombs {
 		bomb.Speed = speed;
 		bomb.Active = false;
 	}
+
+	void drawBomb(Bombs bomb) {
+		if (bomb.Active) {
+			DrawRectangleRec(bomb.Body, bomb.Color);
+		}
+	}
+
+	void moveBomb(Bombs &bomb) {
+		if (bomb.Active) {
+			float time = GetFrameTime();
+			bomb.Body.y += bomb.Speed*time;
+		}
+		if (bomb.Body.y >= screenHeight + bomb.Body.width) {
+			bomb.Active = false;
+		}
+	}
+
 }

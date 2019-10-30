@@ -27,4 +27,22 @@ namespace fighters {
 		fighter.Color = color;
 		fighter.Active = true;
 	}
+
+	void drawFighter(Fighter fighter) {
+		if (fighter.Active) {
+			DrawRectangleRec(fighter.Body, fighter.Color);
+		}
+	}
+	void moveFighter(Fighter &fighter) {
+		float time = GetFrameTime();
+		if (fighter.Active)
+		{
+			fighter.Body.x -= fighter.Speed*time;
+		}
+		if (fighter.Body.x <= 0 - fighter.Body.width) {
+			fighter.Body.x = screenWidth + fighter.Body.x;
+			fighter.Body.y = GetRandomValue(0, screenHeight - fighter.Body.height);
+		}
+	}
+
 }

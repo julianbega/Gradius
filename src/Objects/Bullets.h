@@ -10,6 +10,8 @@ namespace bullets{
 	};
 	extern Bullets bullet;
 	extern void init();
+	void drawBullet(Bullets bullet);
+	void moveBullet(Bullets &bullet);
 }
 #endif
 

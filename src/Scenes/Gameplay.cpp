@@ -42,17 +42,17 @@ namespace gameplay {
 	void loadTextures(Texture2D &frame1, Texture2D &frame2);
 	void initParallax(Rectangle &parallax);
 	void drawParallax(Rectangle parallax);
-	void drawFighter(Fighter fighter);
+	
 	void drawGroundFighter(GroundFighter groundFighter);
 	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet);
-	void drawBullet(Bullets bullet);
-	void drawBomb(Bombs bomb);
+	
+	
 	void controlPause(bool &pause);
-	void moveFighter(Fighter &fighter);
+
 	void moveGroundFighter(GroundFighter &groundFighter);
 	void moveParallax(Rectangle &parallax);
-	void moveBullet(Bullets &bullet);
-	void moveBomb(Bombs &bomb);
+	
+	
 	void moveGroundBullet(GroundFighterBullets &groundFighterBullet);
 	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter);
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter);
@@ -73,16 +73,16 @@ namespace gameplay {
 	void input() {
 		controlPause(pause);
 		players::shootBullet(bullet, player);
-		shootBomb(bomb, player);
+		players::shootBomb(bomb, player);
 		players::movePlayer(player);
 	}
 	void update() {
-		moveFighter(fighter);
+		fighters::moveFighter(fighter);
 		moveGroundFighter(groundFighter);
 		moveParallax(parallax);
-		moveBullet(bullet);
+		bullets::moveBullet(bullet);
 		moveGroundBullet(groundFighterBullet);
-		moveBomb(bomb);
+		bombs::moveBomb(bomb);
 		checkPlayerEnemyCollision(player, fighter, groundFighter);
 		checkPlayerEnemyBulletCollision(player, groundFighterBullet);
 		hitEnemy(bullet, bomb, fighter, groundFighter);
@@ -100,11 +100,11 @@ namespace gameplay {
 		BeginDrawing();
 		ClearBackground(BLACK);
 		drawParallax(parallax);
-		drawBullet(bullet);
-		drawBomb(bomb);
+		bullets::drawBullet(bullet);
+		bombs::drawBomb(bomb);
 		players::drawPlayerAnim(player,frame1,frame2);
 		players::drawPlayerLives(player);
-		drawFighter(fighter);
+		fighters::drawFighter(fighter);
 		drawGroundFighter(groundFighter);
 		drawGroundFighterBullet(groundFighterBullet);
 			EndDrawing();
@@ -120,29 +120,12 @@ namespace gameplay {
 		parallax.y = screenHeight - (parallaxHeight/2);
 	}
 	
-	
-	
-	void drawBullet(Bullets bullet){
-		if (bullet.Active) {
-			DrawRectangleRec(bullet.Body, bullet.Color);
-		}
-	}
-	void drawBomb(Bombs bomb) {
-		if (bomb.Active) {
-			DrawRectangleRec(bomb.Body, bomb.Color);
-		}
-	}
 	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet) {
 		if (groundFighterBullet.Active) {
 			DrawRectangleRec(groundFighterBullet.Body, groundFighterBullet.Color);
 		}
 	}
 	
-	void drawFighter(Fighter fighter) {
-		if (fighter.Active) {
-			DrawRectangleRec(fighter.Body, fighter.Color);
-		}
-	}
 	void drawGroundFighter(GroundFighter groundFighter) {
 		if (groundFighter.Active) {
 			DrawRectangleRec(groundFighter.Body, groundFighter.Color);
@@ -173,18 +156,7 @@ namespace gameplay {
 		}
 	}
 	
-	void moveFighter(Fighter &fighter) {
-		float time = GetFrameTime();
-		if (fighter.Active)
-		{
-			fighter.Body.x -= fighter.Speed*time;
-		}
-		if (fighter.Body.x <= 0 - fighter.Body.width) {
-			fighter.Body.x = screenWidth + fighter.Body.x;
-			fighter.Body.y = GetRandomValue(0, screenHeight - fighter.Body.height);
-		}
-	}
-
+	
 	void moveGroundFighter(GroundFighter &groundFighter) {
 		float time = GetFrameTime();
 		if (groundFighter.Active)
@@ -197,25 +169,7 @@ namespace gameplay {
 		}
 	}
 		
-	void moveBullet(Bullets &bullet) {
-		if (bullet.Active) {
-			float time = GetFrameTime();
-			bullet.Body.x += bullet.Speed*time;
-		}
-		if (bullet.Body.x >= screenWidth + bullet.Body.width) {
-			bullet.Active = false;
-		}
-	}
-	void moveBomb(Bombs &bomb) {
-		if (bomb.Active) {
-			float time = GetFrameTime();
-			bomb.Body.y += bomb.Speed*time;
-		}
-		if (bomb.Body.y >= screenHeight + bomb.Body.width) {
-			bomb.Active = false;
-		}
-	}
-
+	
 	void moveGroundBullet(GroundFighterBullets &groundFighterBullet) {
 		
 		if (groundFighterBullet.Active) {

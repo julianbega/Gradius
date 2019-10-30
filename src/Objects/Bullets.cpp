@@ -20,4 +20,18 @@ namespace bullets {
 		bullet.Speed = speed;
 		bullet.Active = false;
 	}
+	void drawBullet(Bullets bullet) {
+		if (bullet.Active) {
+			DrawRectangleRec(bullet.Body, bullet.Color);
+		}
+	}
+	void moveBullet(Bullets &bullet) {
+		if (bullet.Active) {
+			float time = GetFrameTime();
+			bullet.Body.x += bullet.Speed*time;
+		}
+		if (bullet.Body.x >= screenWidth + bullet.Body.width) {
+			bullet.Active = false;
+		}
+	}
 }

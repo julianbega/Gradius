@@ -12,5 +12,7 @@ namespace fighters {
 	extern Fighter fighter;
 	extern const int fighterHealth;
 	void init();
+	void drawFighter(Fighter fighter);
+	void moveFighter(Fighter &fighter);
 }
 #endif

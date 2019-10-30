@@ -10,6 +10,8 @@ namespace bombs {
 	};
 	extern Bombs bomb;
 	extern void init();
+	void drawBomb(Bombs bomb);
+	void moveBomb(Bombs &bomb);
 }
 #endif
 
