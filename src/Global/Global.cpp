@@ -4,6 +4,8 @@
 
 float timer = 0;
 bool pause = false;
+float groundShootTimer = 0;
+float groundShootCurve = 0;
 
 bool changeFrame() {
 	timer += GetFrameTime();
@@ -15,5 +17,12 @@ bool changeFrame() {
 	}
 	else if (timer < 0.5) {
 		return true;
+	}
+}
+
+void controlPause(bool &pause) {
+
+	if (IsKeyReleased(KEY_P)) {
+		pause = !pause;
 	}
 }

@@ -28,8 +28,7 @@ namespace gameplay {
 	
 	const int enemiesOnLevel = 1;
 
-	float groundShootTimer = 0;
-	float groundShootCurve = 0;
+	
 	int enemiesKilled = 0;
 	Vector2 textureFrame = { player.Body.x,player.Body.y };
 	Texture2D frame1;
@@ -42,30 +41,23 @@ namespace gameplay {
 	void loadTextures(Texture2D &frame1, Texture2D &frame2);
 	void initParallax(Rectangle &parallax);
 	void drawParallax(Rectangle parallax);
-	
-	void drawGroundFighter(GroundFighter groundFighter);
-	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet);
-	
-	
-	void controlPause(bool &pause);
-
-	void moveGroundFighter(GroundFighter &groundFighter);
 	void moveParallax(Rectangle &parallax);
-	
-	
-	void moveGroundBullet(GroundFighterBullets &groundFighterBullet);
-	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter);
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter);
 	void checkPlayerEnemyBulletCollision(Player &player, GroundFighterBullets &groundFighterBullet);
 	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
+	
+	
 	void run() {
 		input();
 		if (!pause){
 			update();
+			
 		}
 		draw();
 	}
+
+
 	void gameplay::init() {
 		loadTextures(frame1, frame2);
 		initParallax(parallax);
@@ -105,8 +97,8 @@ namespace gameplay {
 		players::drawPlayerAnim(player,frame1,frame2);
 		players::drawPlayerLives(player);
 		fighters::drawFighter(fighter);
-		drawGroundFighter(groundFighter);
-		drawGroundFighterBullet(groundFighterBullet);
+		groundFighters::drawGroundFighter(groundFighter);
+		groundFighters::drawGroundFighterBullet(groundFighterBullet);
 			EndDrawing();
 	}
 	void loadTextures(Texture2D &frame1, Texture2D &frame2) {
@@ -120,17 +112,7 @@ namespace gameplay {
 		parallax.y = screenHeight - (parallaxHeight/2);
 	}
 	
-	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet) {
-		if (groundFighterBullet.Active) {
-			DrawRectangleRec(groundFighterBullet.Body, groundFighterBullet.Color);
-		}
-	}
 	
-	void drawGroundFighter(GroundFighter groundFighter) {
-		if (groundFighter.Active) {
-			DrawRectangleRec(groundFighter.Body, groundFighter.Color);
-		}
-	}
 	void drawParallax(Rectangle parallax) {
 		for (int i = 0; i < maxParallax / 2; i++) {
 			DrawRectangle(GetRandomValue(0, 2*screenWidth), GetRandomValue(0, screenHeight), GetRandomValue(5, 10), 5 , parallaxColor);
@@ -148,52 +130,6 @@ namespace gameplay {
 		if (parallax.x <= 0 - parallax.width) {
 			parallax.x = screenWidth + parallax.width;
 		}
-	}
-	void controlPause(bool &pause) {
-
-		if (IsKeyReleased(KEY_P)){
-			pause = !pause;
-		}
-	}
-	
-	
-	void moveGroundFighter(GroundFighter &groundFighter) {
-		float time = GetFrameTime();
-		if (groundFighter.Active)
-		{
-			groundFighter.Body.x -= groundFighter.Speed*time;
-		}
-		if (groundFighter.Body.x <= 0 - groundFighter.Body.width) {
-			groundFighter.Body.x = screenWidth + groundFighter.Body.x;
-			groundFighter.Body.y = screenHeight - fighter.Body.height;
-		}
-	}
-		
-	
-	void moveGroundBullet(GroundFighterBullets &groundFighterBullet) {
-		
-		if (groundFighterBullet.Active) {
-			float time = GetFrameTime();
-			if (groundFighterBullet.Body.y >= groundShootCurve) {
-				groundFighterBullet.Body.y -= groundFighterBullet.Speed*time;
-			}
-			if (groundFighterBullet.Body.y <= groundShootCurve) {
-				groundFighterBullet.Body.x -= groundFighterBullet.Speed*time;
-			}
-		}
-		if (groundFighterBullet.Body.x >= screenWidth + groundFighterBullet.Body.width) {
-			groundFighterBullet.Active = false;
-			groundShootCurve = 0;
-		}
-	}
-	
-
-	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter) {
-		
-			groundFighterBullet.Active = true;
-			groundFighterBullet.Body.x = groundFighter.Body.x + (groundFighter.Body.width / 2);
-			groundFighterBullet.Body.y = groundFighter.Body.y + (groundFighter.Body.height / 2);
-		
 	}
 
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter) {

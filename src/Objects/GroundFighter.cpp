@@ -1,5 +1,6 @@
 #include "Objects\GroundFighter.h"
 #include "Objects\Window.h"
+#include "Global/Global.h"
 using namespace window;
 namespace groundFighters {
 
@@ -26,5 +27,56 @@ namespace groundFighters {
 		groundFighter.Health = health;
 		groundFighter.Color = color;
 		groundFighter.Active = true;
+	}
+
+	void moveGroundFighter(GroundFighter &groundFighter) {
+		float time = GetFrameTime();
+		if (groundFighter.Active)
+		{
+			groundFighter.Body.x -= groundFighter.Speed*time;
+		}
+		if (groundFighter.Body.x <= 0 - groundFighter.Body.width) {
+			groundFighter.Body.x = screenWidth + groundFighter.Body.x;
+			groundFighter.Body.y = screenHeight - groundFighter.Body.height;
+		}
+	}
+
+
+	void moveGroundBullet(GroundFighterBullets &groundFighterBullet) {
+
+		if (groundFighterBullet.Active) {
+			float time = GetFrameTime();
+			if (groundFighterBullet.Body.y >= groundShootCurve) {
+				groundFighterBullet.Body.y -= groundFighterBullet.Speed*time;
+			}
+			if (groundFighterBullet.Body.y <= groundShootCurve) {
+				groundFighterBullet.Body.x -= groundFighterBullet.Speed*time;
+			}
+		}
+		if (groundFighterBullet.Body.x >= screenWidth + groundFighterBullet.Body.width) {
+			groundFighterBullet.Active = false;
+			groundShootCurve = 0;
+		}
+	}
+
+
+	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter) {
+
+		groundFighterBullet.Active = true;
+		groundFighterBullet.Body.x = groundFighter.Body.x + (groundFighter.Body.width / 2);
+		groundFighterBullet.Body.y = groundFighter.Body.y + (groundFighter.Body.height / 2);
+
+	}
+
+	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet) {
+		if (groundFighterBullet.Active) {
+			DrawRectangleRec(groundFighterBullet.Body, groundFighterBullet.Color);
+		}
+	}
+
+	void drawGroundFighter(GroundFighter groundFighter) {
+		if (groundFighter.Active) {
+			DrawRectangleRec(groundFighter.Body, groundFighter.Color);
+		}
 	}
 }
