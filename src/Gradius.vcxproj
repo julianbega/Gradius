@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Global\Global.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Objects\Bomb.cpp" />
     <ClCompile Include="Objects\Bullets.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="System\Gamesystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Global\Global.h" />
     <ClInclude Include="Objects\Bomb.h" />
     <ClInclude Include="Objects\Bullets.h" />
     <ClInclude Include="Objects\Fighter.h" />

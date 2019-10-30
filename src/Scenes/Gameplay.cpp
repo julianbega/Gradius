@@ -6,6 +6,7 @@
 #include "Objects/Bomb.h"
 #include "Objects/Window.h"
 #include "System/Gamesystem.h"
+#include "Global/Global.h"
 #include <iostream>
 using namespace players;
 using namespace fighters;
@@ -20,13 +21,13 @@ namespace gameplay {
 	Rectangle parallax;
 	Color parallaxColor = RAYWHITE;
 	const int maxParallax = 22;
-	const int parallaxWidth = screenWidth / 20;
-	const int parallaxHeight = screenHeight;
-	const int parallaxSpeed = screenWidth / 30;
+	const int parallaxWidth = screenWidth;
+	const int parallaxHeight = screenHeight/8;
+	const int parallaxSpeed = 300;
 	extern bool initOnce = true;
-	bool pause = false;
+	
 	const int enemiesOnLevel = 1;
-	float timer = 0;
+
 	float groundShootTimer = 0;
 	float groundShootCurve = 0;
 	int enemiesKilled = 0;
@@ -41,24 +42,18 @@ namespace gameplay {
 	void loadTextures(Texture2D &frame1, Texture2D &frame2);
 	void initParallax(Rectangle &parallax);
 	void drawParallax(Rectangle parallax);
-	void drawPlayer(Player player);
-	void drawPlayerAnim(Player player, Texture2D frame1, Texture2D frame2);
-	void drawPlayerLives(Player player);
 	void drawFighter(Fighter fighter);
 	void drawGroundFighter(GroundFighter groundFighter);
 	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet);
 	void drawBullet(Bullets bullet);
 	void drawBomb(Bombs bomb);
 	void controlPause(bool &pause);
-	void movePlayer(Player &player);
 	void moveFighter(Fighter &fighter);
 	void moveGroundFighter(GroundFighter &groundFighter);
 	void moveParallax(Rectangle &parallax);
 	void moveBullet(Bullets &bullet);
 	void moveBomb(Bombs &bomb);
 	void moveGroundBullet(GroundFighterBullets &groundFighterBullet);
-	void shootBullet(Bullets &bullet, Player player);
-	void shootBomb(Bombs &bomb, Player player);
 	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter);
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter);
@@ -77,9 +72,9 @@ namespace gameplay {
 	}
 	void input() {
 		controlPause(pause);
-		shootBullet(bullet, player);
+		players::shootBullet(bullet, player);
 		shootBomb(bomb, player);
-		movePlayer(player);
+		players::movePlayer(player);
 	}
 	void update() {
 		moveFighter(fighter);
@@ -107,8 +102,8 @@ namespace gameplay {
 		drawParallax(parallax);
 		drawBullet(bullet);
 		drawBomb(bomb);
-		drawPlayerAnim(player,frame1,frame2);
-		drawPlayerLives(player);
+		players::drawPlayerAnim(player,frame1,frame2);
+		players::drawPlayerLives(player);
 		drawFighter(fighter);
 		drawGroundFighter(groundFighter);
 		drawGroundFighterBullet(groundFighterBullet);
@@ -122,33 +117,11 @@ namespace gameplay {
 		parallax.width = parallaxWidth;
 		parallax.height = parallaxHeight;
 		parallax.x = 0;
-		parallax.y = 0;
+		parallax.y = screenHeight - (parallaxHeight/2);
 	}
-	void drawPlayer(Player player) {
-		DrawRectangleRec(player.Body, player.Color);
-	}
-	bool changeFrame() {
-		timer += GetFrameTime();
-		if (timer >= 0.25) {
-			if (timer>=0.5){
-				timer = 0;
-			}
-			return false;
-		}
-		else if (timer < 0.5) {
-			return true;
-		}
-	}
-	void drawPlayerAnim(Player player, Texture2D frame1, Texture2D frame2){
-		if (changeFrame()){
-			DrawTexture(frame1, player.Body.x - (player.Body.width / 2),
-						player.Body.y - (player.Body.height / 10), WHITE);
-		}
-		else{
-			DrawTexture(frame2, player.Body.x - (player.Body.width / 2),
-				player.Body.y - (player.Body.height / 10), WHITE);
-		}
-	}
+	
+	
+	
 	void drawBullet(Bullets bullet){
 		if (bullet.Active) {
 			DrawRectangleRec(bullet.Body, bullet.Color);
@@ -164,12 +137,7 @@ namespace gameplay {
 			DrawRectangleRec(groundFighterBullet.Body, groundFighterBullet.Color);
 		}
 	}
-	void drawPlayerLives(Player player) {
-		for (int i = 0; i < player.Health; i++) {
-			DrawRectangle((i*player.Body.width), screenHeight/10 - (player.Body.height * 2),
-							player.Body.width / 2, player.Body.height / 2, player.Color);
-		}
-	}
+	
 	void drawFighter(Fighter fighter) {
 		if (fighter.Active) {
 			DrawRectangleRec(fighter.Body, fighter.Color);
@@ -182,10 +150,13 @@ namespace gameplay {
 	}
 	void drawParallax(Rectangle parallax) {
 		for (int i = 0; i < maxParallax / 2; i++) {
-			DrawRectangle(parallax.x - (i*parallax.width*2), parallax.y, parallax.width, parallax.height, parallaxColor);
+			DrawRectangle(GetRandomValue(0, 2*screenWidth), GetRandomValue(0, screenHeight), GetRandomValue(5, 10), 5 , parallaxColor);
 		}
-		for (int i = 0; i < maxParallax/2; i++) {
-			DrawRectangle(parallax.x + (i*parallax.width*2), parallax.y, parallax.width, parallax.height, parallaxColor);
+		for (int i = 0; i < maxParallax / 2; i++) {
+			DrawRectangle(parallax.x, parallax.y, parallaxWidth, parallaxHeight, parallaxColor);
+		}
+		for (int i = 0; i < maxParallax / 2; i++) {
+			DrawRectangle(parallax.x/2, parallax.y, parallaxWidth, parallaxHeight, GRAY);
 		}
 	}
 	void moveParallax(Rectangle &parallax) {
@@ -201,15 +172,7 @@ namespace gameplay {
 			pause = !pause;
 		}
 	}
-	void movePlayer(Player &player) {
-		if (!pause) {
-			float time = GetFrameTime();
-			if (IsKeyDown(KEY_UP)) player.Body.y -= player.Speed*time;
-			if ((player.Body.y) <= 0) player.Body.y = 1;
-			if (IsKeyDown(KEY_DOWN)) player.Body.y += player.Speed*time;
-			if ((player.Body.y + player.Body.height) >= screenHeight) player.Body.y = screenHeight - player.Body.height;
-		}
-	}
+	
 	void moveFighter(Fighter &fighter) {
 		float time = GetFrameTime();
 		if (fighter.Active)
@@ -269,21 +232,7 @@ namespace gameplay {
 			groundShootCurve = 0;
 		}
 	}
-	void shootBullet(Bullets &bullet, Player player) {
-		if (IsKeyDown(KEY_SPACE) && !bullet.Active) {
-			bullet.Active = true;
-			bullet.Body.x = player.Body.x + (player.Body.width / 2);
-			bullet.Body.y = player.Body.y + (player.Body.height / 2);
-		}
-	}
-
-	void shootBomb(Bombs &bomb, Player player) {
-		if (IsKeyDown('B') && !bomb.Active) {
-			bomb.Active = true;
-			bomb.Body.x = player.Body.x + (player.Body.width / 2);
-			bomb.Body.y = player.Body.y + (player.Body.height / 2);
-		}
-	}
+	
 
 	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter) {
 		

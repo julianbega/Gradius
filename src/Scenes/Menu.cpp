@@ -76,7 +76,7 @@ namespace menu {
 						 (static_cast<int>(play.Body.y) + static_cast<int>(play.Body.height) / 2) - fontSize / 2, fontSize, RAYWHITE);
 		DrawText("EXIT", (static_cast<int>(exit.Body.x) + static_cast<int>(exit.Body.width) / 2) - (MeasureText("EXIT", fontSize) / 2),
 						 (static_cast<int>(exit.Body.y) + static_cast<int>(exit.Body.height) / 2) - (fontSize / 2), fontSize, RAYWHITE);
-		DrawText("Version 0.1", screenWidth - (MeasureText("Version 0.1", fontSize)), screenHeight - fontSize, fontSize, RAYWHITE);
+		DrawText("Version 0.4", screenWidth - (MeasureText("Version 0.4", fontSize)), screenHeight - fontSize, fontSize, RAYWHITE);
 	}
 	void followMenuCursor(Cursor &cursor) {
 		cursor.Position = GetMousePosition();
