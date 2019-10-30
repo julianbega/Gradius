@@ -88,6 +88,7 @@ namespace credits{
 						 (static_cast<int>(exit.Body.y) + static_cast<int>(exit.Body.height) / 2) - (fontSize / 2), fontSize, RAYWHITE);
 		DrawText("This game was made possible by:", screenWidth / 10, screenHeight / 2, fontSize / 2, RAYWHITE);
 		DrawText("Ray: Raylib library (www.raylib.com/index.html)", screenWidth / 10, screenHeight / 2 + fontSize, fontSize / 2, RAYWHITE);
+		DrawText("Juego creado por Juan Cruz Tourret, modificacion de Julian Bega", screenWidth / 10, screenHeight / 2 - (2 * fontSize), fontSize / 2, RAYWHITE);
 	}
 	void followMenuCursor(Cursor &cursor) {
 		cursor.Position = GetMousePosition();
