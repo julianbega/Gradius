@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.438
+VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gradius", "src\Gradius.vcxproj", "{9009FC89-9CEE-4A5B-9E45-A123E99631A8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gradius", "Gradius.vcxproj", "{9009FC89-9CEE-4A5B-9E45-A123E99631A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {58BAFB47-A89C-4F4B-BBCC-EDB9DCCF22B9}
+		SolutionGuid = {FD80CB8E-9D71-4063-99CE-99B68AA44081}
 	EndGlobalSection
 EndGlobal
