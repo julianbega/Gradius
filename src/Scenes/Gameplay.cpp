@@ -62,6 +62,7 @@ namespace gameplay {
 	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter);
 	void hitEnemy(Bullets &bullet, Bombs &bomb, Fighter &fighter, GroundFighter &groundFighter);
 	void checkPlayerEnemyCollision(Player &player, Fighter &fighter, GroundFighter &groundFighter);
+	void checkPlayerEnemyBulletCollision(Player &player, GroundFighterBullets &groundFighterBullet);
 	void checkWinLose(Player player,Bullets bullet, Gamestates &gamestate);
 	void run() {
 		input();
@@ -88,11 +89,14 @@ namespace gameplay {
 		moveGroundBullet(groundFighterBullet);
 		moveBomb(bomb);
 		checkPlayerEnemyCollision(player, fighter, groundFighter);
+		checkPlayerEnemyBulletCollision(player, groundFighterBullet);
 		hitEnemy(bullet, bomb, fighter, groundFighter);
 		checkWinLose(player,bullet,Gamestate);
-		groundShootTimer += GetFrameTime();
-		if (groundShootTimer >= 1.3){ 
-			if((groundFighter.Body.x - groundFighter.Body.width/2) > (player.Body.x + player.Body.width/2))
+		if ((groundFighter.Body.x - groundFighter.Body.width / 2) > (player.Body.x + player.Body.width / 2)) {
+			groundShootTimer += GetFrameTime();
+		}
+		if (groundShootTimer >= 2.3){
+			groundShootCurve = GetRandomValue(0 + player.Body.height, screenHeight - (3* groundFighter.Body.height));
 			shootGroundBullet(groundFighterBullet, groundFighter);
 			groundShootTimer = 0;
 		}
@@ -262,6 +266,7 @@ namespace gameplay {
 		}
 		if (groundFighterBullet.Body.x >= screenWidth + groundFighterBullet.Body.width) {
 			groundFighterBullet.Active = false;
+			groundShootCurve = 0;
 		}
 	}
 	void shootBullet(Bullets &bullet, Player player) {
@@ -319,6 +324,14 @@ namespace gameplay {
 		if (CheckCollisionRecs(player.Body, groundFighter.Body) && groundFighter.Active) {
 			player.Health--;
 			groundFighter.Active = false;
+			enemiesKilled++;
+		}
+	}
+
+	void checkPlayerEnemyBulletCollision(Player &player, GroundFighterBullets &groundFighterBullet) {
+		if (CheckCollisionRecs(player.Body, groundFighterBullet.Body) && groundFighterBullet.Active) {
+			player.Health--;
+			groundFighterBullet.Active = false;
 			enemiesKilled++;
 		}
 	}
