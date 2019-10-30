@@ -51,7 +51,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{9009FC89-9CEE-4A5B-9E45-A123E99631A8}</ProjectGuid>
     <RootNamespace>Gradius</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -110,6 +110,7 @@
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)raylib-2.5.0-Win32-msvc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PreLinkEvent>
       <Command>$(SolutionDir)Build.bat "$(SolutionDir)"  "$(OutDir)"</Command>
@@ -138,6 +139,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)raylib-2.5.0-Win32-msvc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>raylib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PreLinkEvent>
       <Command>$(SolutionDir)Build.bat "$(SolutionDir)"  "$(OutDir)"</Command>
