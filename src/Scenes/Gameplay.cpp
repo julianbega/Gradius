@@ -91,7 +91,8 @@ namespace gameplay {
 		hitEnemy(bullet, bomb, fighter, groundFighter);
 		checkWinLose(player,bullet,Gamestate);
 		groundShootTimer += GetFrameTime();
-		if (groundShootTimer >= 3){
+		if (groundShootTimer >= 1.3){ 
+			if((groundFighter.Body.x - groundFighter.Body.width/2) > (player.Body.x + player.Body.width/2))
 			shootGroundBullet(groundFighterBullet, groundFighter);
 			groundShootTimer = 0;
 		}
