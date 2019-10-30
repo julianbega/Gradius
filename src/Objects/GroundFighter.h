@@ -2,7 +2,9 @@
 #define GROUNDFIGHTER_H
 #include "raylib.h"
 #include "GroundFighterBullet.h"
+#include "Objects/Player.h"
 using namespace groundFighterBullets;
+using namespace players;
 namespace groundFighters {
 
 	struct GroundFighter {
@@ -21,5 +23,6 @@ namespace groundFighters {
 	void shootGroundBullet(GroundFighterBullets &groundFighterBullet, GroundFighter groundFighter);
 	void drawGroundFighter(GroundFighter groundFighter);
 	void drawGroundFighterBullet(GroundFighterBullets groundFighterBullet);
+	void groundFighterShouldShoot(Player player);
 }
 #endif

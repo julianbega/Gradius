@@ -20,4 +20,5 @@ namespace groundFighterBullets {
 		groundFighterbullet.Speed = speed;
 		groundFighterbullet.Active = false;
 	}
+
 }

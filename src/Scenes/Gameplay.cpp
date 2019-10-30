@@ -58,10 +58,11 @@ namespace gameplay {
 	}
 
 
-	void gameplay::init() {
+	void init() {
 		loadTextures(frame1, frame2);
 		initParallax(parallax);
 	}
+
 	void input() {
 		controlPause(pause);
 		players::shootBullet(bullet, player);
@@ -70,23 +71,17 @@ namespace gameplay {
 	}
 	void update() {
 		fighters::moveFighter(fighter);
-		moveGroundFighter(groundFighter);
+		groundFighters::moveGroundFighter(groundFighter);
 		moveParallax(parallax);
 		bullets::moveBullet(bullet);
-		moveGroundBullet(groundFighterBullet);
+		groundFighters::moveGroundBullet(groundFighterBullet);
 		bombs::moveBomb(bomb);
 		checkPlayerEnemyCollision(player, fighter, groundFighter);
 		checkPlayerEnemyBulletCollision(player, groundFighterBullet);
 		hitEnemy(bullet, bomb, fighter, groundFighter);
 		checkWinLose(player,bullet,Gamestate);
-		if ((groundFighter.Body.x - groundFighter.Body.width / 2) > (player.Body.x + player.Body.width / 2)) {
-			groundShootTimer += GetFrameTime();
-		}
-		if (groundShootTimer >= 2.3){
-			groundShootCurve = GetRandomValue(0 + player.Body.height, screenHeight - (3* groundFighter.Body.height));
-			shootGroundBullet(groundFighterBullet, groundFighter);
-			groundShootTimer = 0;
-		}
+		groundFighters::groundFighterShouldShoot(player);
+		
 	}
 	void draw() {
 		BeginDrawing();

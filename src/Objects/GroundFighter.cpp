@@ -1,6 +1,7 @@
 #include "Objects\GroundFighter.h"
 #include "Objects\Window.h"
 #include "Global/Global.h"
+#include "Objects/Player.h"
 using namespace window;
 namespace groundFighters {
 
@@ -77,6 +78,18 @@ namespace groundFighters {
 	void drawGroundFighter(GroundFighter groundFighter) {
 		if (groundFighter.Active) {
 			DrawRectangleRec(groundFighter.Body, groundFighter.Color);
+		}
+	}
+
+
+	void groundFighterShouldShoot(Player player) {
+		if ((groundFighter.Body.x - groundFighter.Body.width / 2) > (player.Body.x + player.Body.width / 2)) {
+			groundShootTimer += GetFrameTime();
+		}
+		if (groundShootTimer >= 2.3) {
+			groundShootCurve = GetRandomValue(0 + player.Body.height, screenHeight - (3 * groundFighter.Body.height));
+			shootGroundBullet(groundFighterBullet, groundFighter);
+			groundShootTimer = 0;
 		}
 	}
 }
