@@ -52,6 +52,9 @@
     <ClCompile Include="src\System\Gamesystem.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="src\System\Sounds.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Scenes\Credits.h">
@@ -88,6 +91,9 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="src\System\Gamesystem.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Sounds.h">
       <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>

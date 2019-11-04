@@ -9,6 +9,7 @@
 #include "Scenes/Menu.h"
 #include "Scenes/Gameplay.h"
 #include "Scenes/Credits.h"
+#include "System/Sounds.h"
 #include "raylib.h"
 namespace gamesystem {
 	bool gameIsOn = true;
@@ -17,6 +18,7 @@ namespace gamesystem {
 	void runGame() {
 		gamesystem::init();
 		while (!WindowShouldClose() && gameIsOn) {
+			updateMusic();
 			switch (Gamestate) {
 			case Menu:
 				menu::run();
@@ -47,5 +49,7 @@ namespace gamesystem {
 		bullets::init();
 		groundFighterBullets::init();
 		bombs::init();
+		InitAudioDevice();
+		initializeMusic();
 	}
 }

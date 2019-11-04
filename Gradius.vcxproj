@@ -32,6 +32,7 @@
     <ClCompile Include="src\Scenes\Gameplay.cpp" />
     <ClCompile Include="src\Scenes\Menu.cpp" />
     <ClCompile Include="src\System\Gamesystem.cpp" />
+    <ClCompile Include="src\System\Sounds.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Global\Global.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="src\Scenes\Gameplay.h" />
     <ClInclude Include="src\Scenes\Menu.h" />
     <ClInclude Include="src\System\Gamesystem.h" />
+    <ClInclude Include="src\System\Sounds.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -98,7 +100,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionDir)$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>

@@ -1,12 +1,20 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-extern bool pause;
-extern float timer;
-extern float groundShootTimer;
-extern float groundShootCurve;
+#include "raylib.h"
 
-bool changeFrame();
-void controlPause(bool &pause);
+namespace gamesystem {
 
+	extern bool pause;
+	extern float timer;
+	extern float groundShootTimer;
+	extern float groundShootCurve;
+
+	bool changeFrame();
+	void controlPause(bool &pause);
+
+	extern Music music;
+	extern Sound shoot;
+
+}
 #endif 
