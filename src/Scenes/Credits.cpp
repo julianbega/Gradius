@@ -76,14 +76,14 @@ namespace gamesystem {
 			DrawRectangleRec(button.Body, button.Color);
 		}
 		void drawText(Player player) {
-			DrawText("GRADIUS", GetScreenWidth() / 2 - (MeasureText("GRADIUS", fontSize / 2)), fontSize*1.5, 20, RAYWHITE);
+			DrawText("GRADIUS", GetScreenWidth() / 2 - (MeasureText("GRADIUS", fontSize / 2)), fontSize*1.5, fontSize, RAYWHITE);
 			if (player.Health == 0) {
 				DrawText("YOU LOSE!", GetScreenWidth() / 2 - (MeasureText("YOU LOSE!", bigFontSize / 2)), GetScreenHeight() / 4, bigFontSize, RAYWHITE);
 			}
 			else {
 				DrawText("YOU WIN!", GetScreenWidth() / 2 - (MeasureText("GRADIUS", bigFontSize / 2)), GetScreenHeight() / 4, bigFontSize, RAYWHITE);
 			}
-			DrawText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", GetScreenWidth() / 2 - (MeasureText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", fontSize) / 2), fontSize*2.5, 20, RAYWHITE);
+			DrawText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", GetScreenWidth() / 2 - (MeasureText("PRESIONE 'PLAY' CUANDO ESTE LISTO PARA JUGAR.", fontSize) / 2), fontSize*2.5, fontSize, RAYWHITE);
 			DrawText("PLAY", (static_cast<int>(play.Body.x) + static_cast<int>(play.Body.width) / 2) - (MeasureText("PLAY", fontSize) / 2),
 				(static_cast<int>(play.Body.y) + static_cast<int>(play.Body.height) / 2) - fontSize / 2, fontSize, RAYWHITE);
 			DrawText("EXIT", (static_cast<int>(exit.Body.x) + static_cast<int>(exit.Body.width) / 2) - (MeasureText("EXIT", fontSize) / 2),

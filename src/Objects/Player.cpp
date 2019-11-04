@@ -16,6 +16,7 @@ namespace gamesystem {
 		const int playerY = screenHeight / 2 - playerHeight / 2;
 		const int playerSpeed = screenWidth;
 		const int playerHealth = 1;
+		const int bottomLimit = screenHeight - ((screenHeight / 8)*1.1);
 
 		void initPlayer(Player &player, int width, int height, int x, int y, int lives, int speed, Color color);
 
@@ -68,7 +69,7 @@ namespace gamesystem {
 				DrawRectangle((i*player.Body.width), screenHeight / 10 - (player.Body.height * 2),
 					player.Body.width / 2, player.Body.height / 2, player.Color);
 			}
-		}
+		}  
 
 		void movePlayer(Player &player) {
 			if (!pause) {
@@ -76,7 +77,7 @@ namespace gamesystem {
 				if (IsKeyDown(KEY_UP)) player.Body.y -= player.Speed*time;
 				if ((player.Body.y) <= 0) player.Body.y = 1;
 				if (IsKeyDown(KEY_DOWN)) player.Body.y += player.Speed*time;
-				if ((player.Body.y + player.Body.height) >= screenHeight-(screenHeight/8)*1.1) player.Body.y = screenHeight-((screenHeight / 8)*1.1) - player.Body.height;
+				if ((player.Body.y + player.Body.height) >= bottomLimit) player.Body.y = bottomLimit - player.Body.height;
 			}
 		}
 	}

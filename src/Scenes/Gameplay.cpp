@@ -22,8 +22,10 @@ namespace gameplay {
 	Rectangle parallax;
 	Color parallaxColor = RAYWHITE;
 	const int maxParallax = 22;
+	const int ParallaxDistance = screenWidth / 3;
 	const int parallaxWidth = screenWidth;
 	const int parallaxHeight = screenHeight/8;
+	const int ParallaxHeight2 = parallaxHeight / 11;
 	const int parallaxSpeed = 300;
 	extern bool initOnce = true;
 	
@@ -111,17 +113,20 @@ namespace gameplay {
 	
 	void drawParallax(Rectangle parallax) {
 		DrawRectangle(0, parallax.y/1.1, screenWidth , parallaxHeight*2, GRAY);
-
+		int const StarY = parallax.y / 1.1;
+		int const StarMinWith = 5;
+		int const StarMaxWith = 10;
+		int const StarHeight = 5;
 		for (int i = 0; i < maxParallax / 2; i++) {
-			DrawRectangle(GetRandomValue(0, 2*screenWidth), GetRandomValue(0, parallax.y / 1.1), GetRandomValue(5, 10), 5 , WHITE);
+			DrawRectangle(GetRandomValue(0, 2*screenWidth), GetRandomValue(0, StarY), GetRandomValue(StarMinWith, StarMaxWith), StarHeight, WHITE);
 		}
 
 		for (int i = 0; i < maxParallax ; i++) {
 			DrawRectangle(parallax.x, parallax.y+ parallaxHeight / 11, parallaxHeight / 3 , parallaxHeight, GREEN);
-			DrawRectangle(parallax.x + screenWidth/3, parallax.y + parallaxHeight / 11, parallaxHeight / 3, parallaxHeight, PURPLE);
-			DrawRectangle(parallax.x + screenWidth / 3*2, parallax.y + parallaxHeight / 11, parallaxHeight / 3, parallaxHeight, ORANGE);
-			DrawRectangle(parallax.x + screenWidth, parallax.y + parallaxHeight / 11, parallaxHeight / 3, parallaxHeight, BROWN);
-			DrawRectangle(parallax.x - screenWidth/3, parallax.y + parallaxHeight / 11, parallaxHeight / 3, parallaxHeight, SKYBLUE);
+			DrawRectangle(parallax.x + ParallaxDistance  , parallax.y + ParallaxHeight2, parallaxHeight / 3, parallaxHeight, PURPLE);
+			DrawRectangle(parallax.x + ParallaxDistance*2, parallax.y + ParallaxHeight2, parallaxHeight / 3, parallaxHeight, ORANGE);
+			DrawRectangle(parallax.x + ParallaxDistance*3, parallax.y + ParallaxHeight2, parallaxHeight / 3, parallaxHeight, BROWN);
+			DrawRectangle(parallax.x - ParallaxDistance  , parallax.y + ParallaxHeight2, parallaxHeight / 3, parallaxHeight, SKYBLUE);
 		}
 		
 	}
@@ -129,7 +134,7 @@ namespace gameplay {
 		float time = GetFrameTime();
 		parallax.x -= (parallaxSpeed * time)*2;
 		if (parallax.x <= 0 - parallax.width) {
-			parallax.x = screenWidth + screenWidth / 3;
+			parallax.x = screenWidth + ParallaxDistance;
 		}
 	}
 
