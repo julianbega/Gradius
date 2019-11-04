@@ -76,7 +76,7 @@ namespace gamesystem {
 				if (IsKeyDown(KEY_UP)) player.Body.y -= player.Speed*time;
 				if ((player.Body.y) <= 0) player.Body.y = 1;
 				if (IsKeyDown(KEY_DOWN)) player.Body.y += player.Speed*time;
-				if ((player.Body.y + player.Body.height) >= screenHeight) player.Body.y = screenHeight - player.Body.height;
+				if ((player.Body.y + player.Body.height) >= screenHeight-(screenHeight/8)*1.1) player.Body.y = screenHeight-((screenHeight / 8)*1.1) - player.Body.height;
 			}
 		}
 	}

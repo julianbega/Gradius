@@ -9,7 +9,7 @@ namespace gamesystem {
 		const int fighterWidth = 20;
 		const int fighterHeight = 10;
 		const int fighterX = GetRandomValue(screenWidth + fighterWidth, screenWidth + 2 * fighterWidth);
-		const int fighterY = GetRandomValue(0, screenHeight - fighterHeight);
+		const int fighterY = screenHeight/2;
 		const int fighterSpeed = screenWidth / 2;
 		const int fighterHealth = 1;
 		Fighter fighter;
@@ -43,7 +43,7 @@ namespace gamesystem {
 			}
 			if (fighter.Body.x <= 0 - fighter.Body.width) {
 				fighter.Body.x = screenWidth + fighter.Body.x;
-				fighter.Body.y = GetRandomValue(0, screenHeight - fighter.Body.height);
+				fighter.Body.y = GetRandomValue(0, screenHeight - (screenHeight / 8)*1.1 - (fighter.Body.height/2));
 			}
 		}
 

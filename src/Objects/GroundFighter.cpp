@@ -12,7 +12,7 @@ namespace gamesystem {
 		const int groundFighterWidth = 20;
 		const int groundFighterHeight = 10;
 		const int groundFighterX = GetRandomValue(screenWidth + groundFighterWidth, screenWidth + 2 * groundFighterWidth);
-		const int groundFighterY = screenHeight - groundFighterHeight;
+		const int groundFighterY = screenHeight - groundFighterHeight*2;
 		const int groundFighterSpeed = screenWidth / 2;
 		const int groundFighterHealth = 1;
 		GroundFighter groundFighter;
@@ -41,7 +41,7 @@ namespace gamesystem {
 			}
 			if (groundFighter.Body.x <= 0 - groundFighter.Body.width) {
 				groundFighter.Body.x = screenWidth + groundFighter.Body.x;
-				groundFighter.Body.y = screenHeight - groundFighter.Body.height;
+				groundFighter.Body.y = screenHeight - groundFighter.Body.height*2;
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace gamesystem {
 				groundShootTimer += GetFrameTime();
 			}
 			if (groundShootTimer >= 2.3) {
-				groundShootCurve = GetRandomValue(0 + player.Body.height, screenHeight - (3 * groundFighter.Body.height));
+				groundShootCurve = GetRandomValue(0 + player.Body.height, screenHeight - (screenHeight / 8)*1.1);
 				shootGroundBullet(groundFighterBullet, groundFighter);
 				groundShootTimer = 0;
 			}
